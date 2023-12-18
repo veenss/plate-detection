@@ -67,10 +67,16 @@ for imagePath in imagePaths:
 	endX = int(endX * w)
 	endY = int(endY * h)
 
-	# draw the predicted bounding box on the image
-	cv2.rectangle(image, (startX, startY), (endX, endY),
-		(0, 255, 0), 2)
-	
-	# show the output image
+	cv2.rectangle(image, (startX, startY), (endX, endY), (0, 255, 0), 2)
+
+	roi = image[startY:endY, startX:endX]
+
+	image_name = os.path.basename(imagePath)
+	output_folder = "dataset/output/"
+	os.makedirs(output_folder, exist_ok=True)
+	output_filename = os.path.join(output_folder, image_name)
+
+	cv2.imwrite(output_filename, roi)
+
 	cv2.imshow("Output", image)
 	cv2.waitKey(0)
